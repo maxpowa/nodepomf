@@ -3,10 +3,6 @@ var config = module.exports;
 // Directory to store uploaded files
 config.UPLOAD_DIRECTORY = './files';
 
-// Hashids Salt
-// --Changing this may cause conflicts if there are already uploaded files--
-config.SALT = 'CHANGE ME'
-
 // Filename key length
 // Can be changed without affecting existing files
 // Default: 6
@@ -21,8 +17,8 @@ config.DB_FILENAME = './database.db';
 config.MAX_UPLOAD_COUNT = 10;
 
 // Maximum file size (in bytes)
-// Default: 50MB (50000000)
-config.MAX_UPLOAD_SIZE = 50000000;
+// Default: 100MB (100000000)
+config.MAX_UPLOAD_SIZE = 100000000;
 
 // URL to prepend to output (include trailing slash)
 config.URL = 'http://localhost:3000/';

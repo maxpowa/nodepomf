@@ -1,8 +1,11 @@
+body {
+    background-image: url('/images/furley_bg.png');
+}
 .title {
-    margin-bottom: -10px;
+    margin-bottom: -5px;
 }
 .summary {
-    margin-top: 10%;
+    margin-top: 7%;
 }
 .footer {
     margin-top: 25px;

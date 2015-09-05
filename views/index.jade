@@ -2,6 +2,7 @@ extends layout
 
 block head
   script(src='javascripts/dropzone.js')
+  script(src='javascripts/dropzone_custom.js')
   meta(name="max-up-size", value= config.MAX_UPLOAD_SIZE )
   meta(name="site-href", value= config.URL )
 
@@ -31,22 +32,17 @@ block content
     .container
       .row
         h2.title
-          b Uguu~
+          b Ohay&#x14D;!
         h5
-          em Desu sugoi kawaii!
+          em More kawaii than Pomf!
         |       
         button.button-primary#upload-button
           | &nbsp; Select or drop file(s)...
-        |       
-        button.start.hidden 
-          i.fa.fa-upload.fa-fw
-          | &nbsp; Start
-        |       
-        button.cancel.hidden 
-          i.fa.fa-times.fa-fw
-          | &nbsp; Clear
         p 
-          | Upload any kind of file you want here, as long as it's under =limit
+          | Upload whatever you want here, as long as it's under 
+          | #{config.MAX_UPLOAD_SIZE/1000000}MB. 
+          br
+          | Malware will be automatically removed.
   
   .preview
     .container#preview
@@ -77,5 +73,3 @@ block content
         a(href='') tos
         |  | 
         a(href='') dmca
-        
-  script(src='javascripts/upload_list.js')

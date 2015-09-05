@@ -12,15 +12,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     parallelUploads: 20,
     maxFilesize: document.querySelector('meta[name="max-up-size"]').getAttribute('value') / 1000000,
     previewTemplate: previewTemplate,
+    dictFileTooBig: "O-o-onii-san noo its too big~ ({{filesize}}MB > {{maxFilesize}}MB)",
     autoQueue: true, // Make sure the files aren't queued until manually added
     previewsContainer: "#preview", // Define the container to display the previews
     clickable: "#upload-button" // Define the element that should be used as click trigger to select files.
   });
 
   dz.on("addedfile", function(file) {
-    document.querySelector(".start").classList.remove('hidden');
-    document.querySelector(".cancel").classList.remove('hidden');
-
     file.previewElement.querySelector(".remove").onclick = function() { dz.removeFile(file); };
   });
 
@@ -34,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     file.previewElement.querySelector(".link").classList.remove('hidden');
 
     var data = JSON.parse(file.xhr.response);
-    var name = data.files[0].name;
+    var name = data.files[0].url;
     file.previewElement.querySelector(".link-href").setAttribute('href', document.querySelector('meta[name="site-href"]').getAttribute('value') + name);
     file.previewElement.querySelector(".link-href").innerHTML = document.querySelector('meta[name="site-href"]').getAttribute('value') + name;
   });
@@ -47,16 +45,4 @@ document.addEventListener("DOMContentLoaded", function(event) {
   dz.on("queuecomplete", function(progress) {
     //document.querySelector(".file-progress").style.opacity = "0";
   });
-
-  // Setup the buttons for all transfers
-  // The "add files" button doesn't need to be setup because the config
-  // `clickable` has already been specified.
-  document.querySelector(".start").onclick = function() {
-    dz.enqueueFiles(dz.getFilesWithStatus(Dropzone.ADDED));
-  };
-  document.querySelector(".cancel").onclick = function() {
-    dz.removeAllFiles(true);
-    document.querySelector(".start").classList.add('hidden');
-    document.querySelector(".cancel").classList.add('hidden');
-  };
 });
