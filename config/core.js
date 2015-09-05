@@ -25,7 +25,7 @@ config.MAX_UPLOAD_COUNT = 10;
 config.MAX_UPLOAD_SIZE = 50000000;
 
 // URL to prepend to output (include trailing slash)
-config.URL = 'https://u.xpw.us/';
+config.URL = 'http://localhost:3000/';
 
 // Two dot extensions
 config.COMPLEX_EXTS = [

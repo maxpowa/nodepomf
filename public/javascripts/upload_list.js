@@ -33,9 +33,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     file.previewElement.querySelector(".status").classList.add('hidden');
     file.previewElement.querySelector(".link").classList.remove('hidden');
 
-    file.previewElement.querySelector(".link").setAttribute('href', document.querySelector('meta[name="site-href"]').getAttribute('value') + "asdf");
-    file.previewElement.querySelector(".link").innerHTML = document.querySelector('meta[name="site-href"]').getAttribute('value') + "asdf";
-    console.log(file);
+    var data = JSON.parse(file.xhr.response);
+    var name = data.files[0].name;
+    file.previewElement.querySelector(".link-href").setAttribute('href', document.querySelector('meta[name="site-href"]').getAttribute('value') + name);
+    file.previewElement.querySelector(".link-href").innerHTML = document.querySelector('meta[name="site-href"]').getAttribute('value') + name;
   });
 
   dz.on("uploadprogress", function(file, progress, bytesSent) {
