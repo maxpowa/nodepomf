@@ -36,8 +36,4 @@ router.post('/', upload.array('file', config.MAX_UPLOAD_COUNT), function(req, re
   res.json({'success': true, 'files': files});
 });
 
-router.get('/', function(req, res, next) {
-  res.send('You\'re doing it wrong!');
-});
-
 module.exports = router;
