@@ -1,0 +1,81 @@
+extends layout
+
+block head
+  script(src='javascripts/dropzone.js')
+  meta(name="max-up-size", value= config.MAX_UPLOAD_SIZE )
+  meta(name="site-href", value= config.URL )
+
+block content
+  .template
+    .row
+    
+      .u-pull-right.status
+        span.remove
+          i.fa.fa-times.fa-fw
+        .file-progress.progress-outer(role='progressbar')
+          .progress-inner(style='width: 0%;' data-dz-uploadprogress='')
+      .u-pull-right.link.hidden
+        a.link(target="_blank", href="")
+      .preview.u-pull-left
+        // Default 1x1 transparent gif
+        img(data-dz-thumbnail='' src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")
+      div
+        span.name(data-dz-name='')
+        | &nbsp; (
+        span.size(data-dz-size='')
+        | )
+        br
+        span.error(data-dz-errormessage='')
+      
+  // Summary block
+  .summary
+    .container
+      .row
+        h2.title
+          b Uguu~
+        h5
+          em Desu sugoi kawaii!
+        |       
+        button.button-primary#upload-button
+          | &nbsp; Select or drop file(s)...
+        |       
+        button.start.hidden 
+          i.fa.fa-upload.fa-fw
+          | &nbsp; Start
+        |       
+        button.cancel.hidden 
+          i.fa.fa-times.fa-fw
+          | &nbsp; Clear
+        p 
+          | Upload any kind of file you want here, as long as it's under =limit
+  
+  .preview
+    .container#preview
+  
+  // Download block
+  .download
+    .container
+      .row
+        h5
+          b Download
+        |       
+        button
+          i.fa.fa-windows.fa-fw
+          | &nbsp; Windows XP~8
+        |       
+        button
+          i.fa.fa-apple.fa-fw
+          | &nbsp; Mac OS X 10.6+
+        |       
+        button
+          i.fa.fa-mobile.fa-fw
+          | &nbsp; iPhone (App Store)
+  // Footer block
+  .footer
+    .container
+      .row
+        a(href='') tos
+        |  | 
+        a(href='') dmca
+        
+  script(src='javascripts/upload_list.js')

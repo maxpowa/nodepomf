@@ -1,0 +1,112 @@
+.title {
+    margin-bottom: -10px;
+}
+.summary {
+    margin-top: 10%;
+}
+.footer {
+    margin-top: 25px;
+    color: #AAA;
+    text-align: center;
+    margin-bottom: 5%;
+}
+.hidden {
+    display:none;
+}
+.preview img {
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+}
+.preview {
+    margin-right: 10px;
+}
+.download .container{
+    padding-top: 2.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid #EEE;
+}
+.error {
+    color: #f00;
+}
+.progress-outer {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #FFF;
+    border-radius: 6px;
+    box-shadow: 0px 0px 0px 1px #000;
+    color: transparent;
+    display: inline-block;
+    font-size: 0px;
+    float: right;
+    height: 10px;
+    margin: 6px 6px 0px;
+    overflow: hidden;
+    vertical-align: middle;
+    width: 50px;
+}
+.progress-inner {
+    background-color: #000;
+    height: 10px;
+    margin: 0px;
+    width: 0px;
+}
+
+/* Tweaks to Skeleton */
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+    border-radius: 100px;
+}
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  background-color: #F5F5F5;
+  border-color: #888;
+}
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+    background-color: #70D942;
+    border-color: #70D942;
+}
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+    background-color: #67C93C;
+    border-color: #67C93C;
+}
+a {
+    color: #70D942;
+}
+a:hover {
+    color: #67C93C;
+}
+
+@media (max-width: 730px) {
+  .button,
+  button,
+  input[type="submit"],
+  input[type="reset"],
+  input[type="button"] {
+    min-width: 100%;
+  }
+}
