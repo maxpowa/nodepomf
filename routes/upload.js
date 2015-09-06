@@ -23,17 +23,17 @@ var storage = multer.diskStorage({
   }
 });
 
-var upload = multer({ storage: storage, limits: {fileSize: config.MAX_UPLOAD_SIZE} });
+var upload = multer({ storage: storage, limits: {fileSize: config.MAX_UPLOAD_SIZE}, fileFilter: util.fileFilter });
 
 /* POST upload page. */
-router.post('/', upload.array('file', config.MAX_UPLOAD_COUNT), function(req, res, next) {
+router.post('/', upload.array('files[]', config.MAX_UPLOAD_COUNT), function(req, res, next) {
   var files = [];
   req.files.forEach(function(file) {
     db.run('UPDATE pomf SET size = ? WHERE name = ?', [file.size, file.filename]);
     files.push({"name": file.originalname, "url": file.filename, "size": file.size});
   });
   files = util.toObject(files);
-  res.json({'success': true, 'files': files});
+  res.status(200).json({'success': true, 'files': files});
 });
 
 module.exports = router;

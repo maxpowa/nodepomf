@@ -7,6 +7,17 @@ body {
 .summary {
     margin-top: 7%;
 }
+.tools {
+    margin-top: 7%;
+    margin-bottom:7%;
+}
+.toolinfo{
+    margin-top: 0px;
+}
+.links {
+    margin-top: 10em;
+    margin-bottom: 10em;
+}
 .footer {
     margin-top: 25px;
     color: #AAA;
@@ -24,11 +35,6 @@ body {
 }
 .preview {
     margin-right: 10px;
-}
-.download .container{
-    padding-top: 2.5rem;
-    margin-top: 1.5rem;
-    border-top: 1px solid #EEE;
 }
 .error {
     color: #f00;

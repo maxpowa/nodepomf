@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .tools.container
+    h3 #{config.SITE_NAME} Tools
+    span.links
+      a(href='../') #{config.SITE_NAME} Home
+
+    h5.title ShareX Custom Uploader
+    dl.toolinfo
+      dt Download ShareX
+      dd 
+        a(href='http://getsharex.com/', target='_blank') http://getsharex.com/
+      dt Config
+      dd
+        a(href='#{config.URL}tools/sharex', target='_blank') #{config.URL}tools/sharex

@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var upload = require('./routes/upload');
+var tools  = require('./routes/tools');
+var config = require('./config/core');
 
 var app = express();
 
@@ -21,9 +23,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('json spaces', 2);
 
-app.use('/', routes);
 app.use('/upload', upload);
+app.use('/tools', tools);
+app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -39,9 +43,10 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.json({
       message: err.message,
-      error: err
+      error: err,
+      status: err.status || 500
     });
   });
 }
@@ -50,9 +55,9 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.json('error', {
     message: err.message,
-    error: {}
+    status: err.status || 500
   });
 });
 

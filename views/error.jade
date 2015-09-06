@@ -1,6 +1,11 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  .container.summary
+    .row
+      //if error.status === 404
+        //img(src='/images/404.jpg')
+      //else
+      h3= message
+      h5= error.status
+      pre #{error.stack}
