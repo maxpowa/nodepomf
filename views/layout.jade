@@ -14,7 +14,21 @@ html
     link(href='stylesheets/skeleton.css', rel='stylesheet')
     link(href='stylesheets/custom.css', rel='stylesheet')
     // Favicon
-    link(href='images/favicon.png', rel='icon', type='image/png', )
+    link(href='images/favicon.png', rel='icon', type='image/png')
     block head
   body
     block content
+    
+    // Footer block
+    .footer
+      .container
+        .row
+          a(href='./') home
+          |  | 
+          a(href='./tools') tools
+          |  | 
+          a(href='./faq') faq
+          |  | 
+          a(href='./contact') contact
+          |  | 
+          a(href='https://github.com/maxpowa/npomf') source

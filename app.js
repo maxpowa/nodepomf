@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var upload = require('./routes/upload');
 var tools  = require('./routes/tools');
+var faq    = require('./routes/faq');
+var contact= require('./routes/contact');
 var config = require('./config/core');
 
 var app = express();
@@ -23,10 +25,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/f', express.static(path.join(__dirname, config.UPLOAD_DIRECTORY)));
 app.set('json spaces', 2);
 
 app.use('/upload', upload);
 app.use('/tools', tools);
+app.use('/faq', faq);
+app.use('/contact', contact);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

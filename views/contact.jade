@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  .container
+    h1.title.summary Contact
+    p To report abuse (DMCA, copyright infringement, child porn, etc) or any other matter, hit us up!
+      each contact in config.CONTACTS
+        p!= contact

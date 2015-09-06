@@ -4,7 +4,7 @@ block head
   script(src='javascripts/dropzone.js')
   script(src='javascripts/dropzone_custom.js')
   meta(name="max-up-size", value= config.MAX_UPLOAD_SIZE )
-  meta(name="site-href", value= config.URL )
+  meta(name="site-href", value= config.FILE_URL )
 
 block content
   .template
@@ -32,17 +32,13 @@ block content
     .container
       .row
         h2.title
-          b Ohay&#x14D;!
+          b= config.HELLO
         h5
-          em More kawaii than Pomf!
+          em= config.TAGLINE
         |       
         button.button-primary#upload-button
           | &nbsp; Select or drop file(s)...
-        p 
-          | Upload whatever you want here, as long as it's under 
-          | #{config.MAX_UPLOAD_SIZE/1000000}MB. 
-          br
-          | Malware will be automatically removed.
+        p!= config.DESCRIPTION
   
   .preview
     .container#preview
@@ -65,11 +61,3 @@ block content
         button
           i.fa.fa-mobile.fa-fw
           | &nbsp; iPhone (App Store)
-
-  // Footer block
-  .footer
-    .container
-      .row
-        a(href='') tos
-        |  | 
-        a(href='') dmca
