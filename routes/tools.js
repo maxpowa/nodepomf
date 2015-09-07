@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('tools', {config: config});
+  res.render('tools', {title: config.SITE_NAME + ' · Tools', config: config});
 });
 
 router.get('/sharex', function(req, res, next) {

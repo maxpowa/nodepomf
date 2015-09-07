@@ -1,6 +1,8 @@
 {
   "name": "not-pomf",
   "version": "0.1.0",
+  "description": "Not Pomf! A rewrite of the Pomf file host in NodeJS",
+  "author": "Max Gurela <maxpowa@outlook.com>",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
