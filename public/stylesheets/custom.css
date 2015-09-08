@@ -27,6 +27,7 @@ body {
     display:none;
 }
 .preview img {
+    border-radius: 4px;
     min-width: 60px;
     min-height: 60px;
     max-width: 60px;
