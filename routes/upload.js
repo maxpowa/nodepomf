@@ -10,7 +10,7 @@ var router = express.Router();
 
 mkdirp(config.UPLOAD_DIRECTORY);
 
-db.run('CREATE TABLE IF NOT EXISTS pomf (name text unique primary key, originalname text, size number)');
+db.run('CREATE TABLE IF NOT EXISTS files (id integer primary key, filename text unique, originalname text, size number)');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -29,7 +29,7 @@ var upload = multer({ storage: storage, limits: {fileSize: config.MAX_UPLOAD_SIZ
 router.post('/', upload.array('files[]', config.MAX_UPLOAD_COUNT), function(req, res, next) {
   var files = [];
   req.files.forEach(function(file) {
-    db.run('UPDATE pomf SET size = ? WHERE name = ?', [file.size, file.filename]);
+    db.run('UPDATE files SET size = ? WHERE filename = ?', [file.size, file.filename]);
     files.push({"name": file.originalname, "url": file.filename, "size": file.size});
   });
   files = util.toObject(files);

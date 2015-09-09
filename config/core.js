@@ -20,16 +20,22 @@ config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
 										 "remove files under specific circumstances.";
 
 // Main URL (User-facing)
+// config.URL = 'http://my.domain.is.moe/';
 config.URL = 'http://localhost:3000/';
 // URL to access uploaded files
 // Different from URL if you're serving uploaded files from a different subdomain
 // If you serve from a different directory/subdomain this app won't be able
 // to actually serve the files, NGINX or something must do that. This is just
 // for generating links to uploaded files.
+// config.FILE_URL = 'http://a.my.domain.is.moe/';
 config.FILE_URL = 'http://localhost:3000/f/';
 
 // Only open to localhost, you can should put this behind nginx or similar
+// config.IFACES = '0.0.0.0'; // Open to all interfaces (Not running behind nginx)
 config.IFACES = '127.0.0.1';
+// Run on 3000 and then proxy with nginx to 80, or just directly open to 80 (not recommended)
+// config.PORT = '80';
+config.PORT = '3000';
 
 // Contact name & email, for contact page
 config.CONTACTS = [
@@ -48,6 +54,10 @@ config.MAX_UPLOAD_COUNT = 10;
 // Default: 6
 config.KEY_LENGTH = 6;
 
+// Extensions that should be automatically rejected.
+// This is totally optional, you can just do
+// if you don't want to reject any extensions.
+// config.BANNED_EXTS = [];
 config.BANNED_EXTS = [
 	'exe',
 	'scr',
@@ -59,7 +69,9 @@ config.BANNED_EXTS = [
 	'msi'
 ];
 
-// Two dot extensions
+// Two dot extensions - for files that need both parts of the extension
+// Some others might include .tar.lzma or .tar.lz . These are optional
+// but may affect the way that users attempt to open files.
 config.COMPLEX_EXTS = [
 	'.tar.gz',
 	'.tar.bz',
