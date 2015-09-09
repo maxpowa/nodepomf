@@ -16,7 +16,7 @@ router.get('/sharex', function(req, res, next) {
     "Arguments": {},
     "ResponseType": "Text",
     "RegexList": [
-      "\"url\":\"(.+?)\""
+      "\"url\": \"(.+?)\""
     ],
     "URL": config.FILE_URL + "$1,1$",
     "ThumbnailURL": "",
