@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/f', express.static(path.join(__dirname, config.UPLOAD_DIRECTORY)));
 app.set('json spaces', 2);
 
-app.use('/upload', upload);
+app.use('/upload(.php)?', upload);
 app.use('/tools', tools);
 app.use('/faq', faq);
 app.use('/contact', contact);
