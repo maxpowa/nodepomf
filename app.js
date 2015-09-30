@@ -28,21 +28,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/f', express.static(path.join(__dirname, config.UPLOAD_DIRECTORY)));
 app.set('json spaces', 2);
 
+app.use(function(req, res, next) {
+  res.locals.grill = config.GRILLS[Math.floor(Math.random()*config.GRILLS.length)];
+  next();
+});
+
 app.use('/upload(.php)?', upload);
 app.use('/tools', tools);
 app.use('/faq', faq);
 app.use('/contact', contact);
 app.use('/', routes);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
 // error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
@@ -64,6 +61,13 @@ app.use(function(err, req, res, next) {
     message: err.message,
     status: err.status || 500
   });
+});
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 

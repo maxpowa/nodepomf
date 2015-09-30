@@ -32,7 +32,7 @@ config.FILE_URL = 'http://localhost:3000/f/';
 
 // Only open to localhost, you can should put this behind nginx or similar
 // config.IFACES = '0.0.0.0'; // Open to all interfaces (Not running behind nginx)
-config.IFACES = '127.0.0.1';
+config.IFACES = '0.0.0.0';
 // Run on 3000 and then proxy with nginx to 80, or just directly open to 80 (not recommended)
 // config.PORT = '80';
 config.PORT = '3000';
@@ -43,6 +43,21 @@ config.CONTACTS = [
 	"<a href='mailto:my.waifu@is.shit'>my.waifu@is.shit</a><br/>"+
 	"<a href='http://twitter.com/shit_waifu'>@shit_waifu</a>",
 	""
+];
+
+// Put your grills in public/images/grills and then link them here for them to randomly appear
+// on rendered pages.
+config.GRILLS = [
+	"/images/grills/rory_mercury.png",
+	"/images/grills/enju.png",
+	"/images/grills/3.png",
+	"/images/grills/4.png",
+	"/images/grills/5.png",
+	"/images/grills/6.png",
+	"/images/grills/7.png",
+	"/images/grills/8.png",
+	"/images/grills/9.png",
+	"/images/grills/10.png"
 ];
 
 // Maximum number of files to upload at once

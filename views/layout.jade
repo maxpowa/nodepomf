@@ -5,7 +5,7 @@ html
     meta(charset='utf-8')  
     title=title
     // Mobile Specific Metas
-    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='viewport', content='height=device-height, width=device-width, initial-scale=1')
     // Fonts
     link(href='//fonts.googleapis.com/css?family=Raleway:400,300,600', rel='stylesheet', type='text/css')
     link(href='//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', rel='stylesheet', type='text/css')
@@ -15,6 +15,13 @@ html
     link(href='stylesheets/custom.css', rel='stylesheet')
     // Favicon
     link(href='images/favicon.png', rel='icon', type='image/png')
+    style(type='text/css').
+      body {
+        background: url(#{grill}), url('/images/cream_dust.png');
+        background-size: 25vh, auto;
+        background-position: 85% 100%, top left;
+        background-repeat: no-repeat, repeat;
+      }
     block head
   body
     block content
