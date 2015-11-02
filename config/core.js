@@ -96,4 +96,9 @@ config.COMPLEX_EXTS = [
 ];
 
 // Merge ENV in because we -hate- love RX14-chibi
-for (var attr in process.env) { config[attr] = process.env[attr]; }
+for (var attr in process.env) {
+	if (attr.startsWith('NPOMF_')) {
+		attr = attr.replace('NPOMF_', '');
+		config[attr] = process.env[attr]; 
+	}
+}
