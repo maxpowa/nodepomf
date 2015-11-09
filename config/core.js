@@ -50,14 +50,13 @@ config.CONTACTS = [
 config.GRILLS = [
 	"/images/grills/rory_mercury.png",
 	"/images/grills/enju.png",
-	"/images/grills/3.png",
-	"/images/grills/4.png",
-	"/images/grills/5.png",
-	"/images/grills/6.png",
-	"/images/grills/7.png",
-	"/images/grills/8.png",
-	"/images/grills/9.png",
-	"/images/grills/10.png"
+	"/images/grills/grill.png",
+	"/images/grills/akemi_homura.png",
+	"/images/grills/himawari_x_sakurako.png",
+	"/images/grills/krul_tepes.png",
+	"/images/grills/nazuna.png",
+	"/images/grills/nori.png",
+	"/images/grills/shoukaku_x_zuikaku.png"
 ];
 
 // Maximum number of files to upload at once
