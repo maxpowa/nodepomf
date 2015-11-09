@@ -14,10 +14,23 @@ $ npm install
 ```
 That's it. You can now run the app with `npm start`
 
+### Docker
+```
+docker pull maxpowa/npomf
+```
+Start the container as you would normally.
+
 ## Configuring npomf
 In the config folder, you will find all of the files that effect the operation
 of the application. Most config options should be self-explanatory or will have
 extensive documentation on them.
+
+### Docker
+For configuring in docker, you can specify environment variables to overwrite 
+the existing config by adding NPOMF_<CONFIG_VALUE> to your env. You can also
+create a volume over the config file with 
+
+`-v /usr/src/app/config/core.js:<path/to/your/core.js>`
 
 ## Nginx Config
 Usually, you want to run a NodeJS app behind a proxy like nginx. Configuring
