@@ -30,7 +30,7 @@ For configuring in docker, you can specify environment variables to overwrite
 the existing config by adding NPOMF_<CONFIG_VALUE> to your env. You can also
 create a volume over the config file with 
 
-`-v /usr/src/app/config/core.js:<path/to/your/core.js>`
+`-v <path/to/your/core.js>:/usr/src/app/config/core.js`
 
 ## Nginx Config
 Usually, you want to run a NodeJS app behind a proxy like nginx. Configuring
