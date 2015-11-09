@@ -15,9 +15,9 @@ config.SITE_NAME = 'NPomf';
 config.HELLO = "Ohayō!";
 config.TAGLINE = "More kawaii than Pomf?!";
 config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
-										 config.MAX_UPLOAD_SIZE/1000000 + "MB.<br/> "+
-										 "Please read our <a href='/faq'>FAQ</a>, as we may "+
-										 "remove files under specific circumstances.";
+                     config.MAX_UPLOAD_SIZE/1000000 + "MB.<br/> "+
+                     "Please read our <a href='/faq'>FAQ</a>, as we may "+
+                     "remove files under specific circumstances.";
 
 // Main URL (User-facing)
 // config.URL = 'http://my.domain.is.moe/';
@@ -93,3 +93,11 @@ config.COMPLEX_EXTS = [
 	'.tar.xz',
 	'.user.js'
 ];
+
+// Merge ENV in because we -hate- love RX14-chibi
+for (var attr in process.env) {
+	if (attr.startsWith('NPOMF_')) {
+		eattr = attr.replace('NPOMF_', '');
+		config[eattr] = process.env[attr]; 
+	}
+}
