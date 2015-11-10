@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
   var previewNode = document.querySelector(".template");
   previewNode.id = "";
+  previewNode.className = "";
   var previewTemplate = previewNode.parentNode.innerHTML;
   previewNode.parentNode.removeChild(previewNode);
 
