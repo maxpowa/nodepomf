@@ -2,7 +2,7 @@ html {
     height: 100%;
 }
 body {
-    background-image: url('/images/cream_dust.png');
+    background-image: url('../images/cream_dust.png');
 }
 #upload-button {
     margin-bottom: 2em;
@@ -19,6 +19,14 @@ body {
 .links {
     margin-top: 10em;
     margin-bottom: 10em;
+}
+.header {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #4A4A4A;
+    text-align: center;
+    background-color: #FAFAFA;
+    border-bottom: 1px solid #AAA;
 }
 .footer {
     margin-top: 25px;
@@ -62,6 +70,40 @@ body {
     height: 10px;
     margin: 0px;
     width: 0px;
+}
+.login_splash {
+    width: 100%;
+    height: auto;
+}
+button.sign_in{
+    width: 100%;
+    height: 50px;
+    border: none;
+    font-size: 0px;
+}
+button.sign_in.google {
+    background: url("../images/sign_in_google.png") no-repeat center top;
+    background-size: contain;
+}
+button.sign_in.google:active {
+    background: url("../images/sign_in_google_pressed.png") no-repeat center top;
+    background-size: contain;
+}
+button.sign_in.pixiv {
+    background: url("../images/sign_in_pixiv.png") no-repeat center top;
+    background-size: contain;
+}
+button.sign_in.pixiv:active {
+    background: url("../images/sign_in_pixiv_pressed.png") no-repeat center top;
+    background-size: contain;
+}
+button.sign_in.github {
+    background: url("../images/sign_in_github.png") no-repeat center top;
+    background-size: contain;
+}
+button.sign_in.github:active {
+    background: url("../images/sign_in_github_pressed.png") no-repeat center top;
+    background-size: contain;
 }
 
 @media (max-width: 730px) {

@@ -78,8 +78,14 @@ function fileFilter(req, file, cb) {
         cb(null, true);
 }
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
+
 var exports = module.exports;
 exports.reverse = reverse;
 exports.toObject = toObject;
 exports.fileFilter = fileFilter;
 exports.generate_name = generate_name;
+exports.ensureAuthenticated = ensureAuthenticated;

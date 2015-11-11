@@ -16,11 +16,13 @@ html
     // Favicon
     link(href='images/favicon.png', rel='icon', type='image/png')
     style(type='text/css').
-      body {
-        background: url(#{grill}), url('/images/cream_dust.png');
-        background-size: 25vh, auto;
-        background-position: 85% 100%, top left;
-        background-repeat: no-repeat, repeat;
+      @media (min-width: 730px) {
+        body {
+          background: url(#{grill}), url('/images/cream_dust.png');
+          background-size: 25vh, auto;
+          background-position: 85% 100%, top left;
+          background-repeat: no-repeat, repeat;
+        }
       }
       .hidden {
           display:none;

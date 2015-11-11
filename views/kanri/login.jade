@@ -4,7 +4,10 @@ block content
   .container
     h1.summary Login
     .row
-      .seven.columns
-        #TODO: put kawaii things here
-      .five.columns
-        #TODO: Click to login with google/etc...
+      .eight.columns
+        img.login_splash(src="images/login_splash.png")
+      .four.columns
+        if config.GITHUB_CLIENT_ID && config.GITHUB_CLIENT_SECRET
+          button.sign_in.github(onclick="location.href='/auth/github';")
+            | Sign in with Github
+        // etc... more auth methods can be added

@@ -94,6 +94,10 @@ config.COMPLEX_EXTS = [
 	'.user.js'
 ];
 
+// Github client id and secret keys, for Kanri authentication
+config.GITHUB_CLIENT_ID = null;
+config.GITHUB_CLIENT_SECRET = null;
+
 // Merge ENV in because we -hate- love RX14-chibi
 for (var attr in process.env) {
 	if (attr && attr.startsWith('NPOMF_')) {
