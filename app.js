@@ -54,7 +54,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressSession({ secret: config.SESSION_SECRET || 'some super secret key' }));
+app.use(expressSession({ secret: config.SESSION_SECRET || 'some super secret key', resave: false, saveUninitialized: false }));
 
 if (auth) {
   app.use(passport.initialize());
@@ -101,8 +101,8 @@ app.get('/logout', function(req, res){
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  if (req.url !== '/error') {
-      res.redirect(404, '/error');
+  if (req.url !== '/404') {
+      res.redirect('/404');
   } else {
       var error = new Error('Not found');
       error.status = 404;
