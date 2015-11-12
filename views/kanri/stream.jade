@@ -1,69 +1,178 @@
 extends ./layout
 
+block head
+  meta(name="site-href", value= config.FILE_URL )
+  
 block ui
-  .container
-    .row.summary
-      .six.columns
+  .container#main
+    .row.summary(order=0)
+      .nine.columns
         h1 Stream
-      .six.columns
-        select.u-pull-right#age-selector
+      .three.columns
+        select#age-selector(onchange="reloadTimespan(this)")
           option(value='3600') 1 hour
           option(value='21600') 6 hours
           option(value='43200') 12 hours
           option(value='86400', selected='selected') 1 day
           option(value='259200') 3 days
           option(value='604800') 1 week
-    .row.load_mask
+    .row.load_mask(order=1)
       .twelve.columns
         | Loading...
         br
         .loader
           span.loader-inner
-    .row.file_detail
+    .template.hidden
+      .row.file_detail(data-file='', order=3)
         .u-pull-right.detail_button
           a.link-href(target="_blank", href="")
         .preview.u-pull-left
-          img#preview(src="/images/fileicon2.png")
-        div
-          span.name
+          img.preview(src="/images/fileicon2.png", onerror="this.src='/images/fileicon2.png';this.onerror='';" )
+        .details
+          a.name(href='')
+            b.name
           | &nbsp; (
           span.size
           | )
           br
-          span.error
-          button.delete.u-pull-right(onClick="deleteFile()") Delete
-          button.move.u-pull-right(onClick="moveFile()") Move
+          em.originalname
+          button.delete.u-pull-right(onClick="deleteFile(this)") Delete
+          button.rename.u-pull-right(onClick="renameFile(this)") Rename
+          input.rename.u-pull-right(type='text', onKeyUp='renameFieldChange(this)', value='')
   
   script.
-    function moveFile() {
-      //do something
+    var loadedFiles = [],
+      siteurl = null, tmpl = null, detail_tmpl = null;
+    function bytesToSize(bytes) {
+      var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+      if (bytes == 0) return 'n/a';
+      var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+      if (i == 0) return bytes + ' ' + sizes[i];
+      return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
     }
-    function deleteFile() {
-      confirm('asdf');
+    function hasClass(ele,cls) {
+      return !!ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
     }
-    var loadedFiles = {};
+    function addClass(ele,cls) {
+      if (!hasClass(ele,cls)) ele.className = ele.className.trim() + " " + cls;
+    }
+    function removeClass(ele,cls) {
+      if (hasClass(ele,cls)) {
+        var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
+        ele.className = ele.className.replace(reg,' ');
+        ele.className = ele.className.trim();
+      }
+    }
+    function renameFieldChange(el) {
+      var tmp = el.value;
+      if (!tmp.match('^[\\w\\-. ]+$')) {
+        addClass(el, 'error');
+        el.parentNode.querySelector('button.rename').setAttribute('disabled', true);
+      } else {
+        removeClass(el, 'error');
+        el.parentNode.querySelector('button.rename').setAttribute('disabled', false);
+      }
+    }
+    function renameFileResult() {
+      var data = JSON.parse(this.responseText);
+      if (data.error) {
+        return console.warn(data.error.message);
+      }
+      var node = document.querySelector('#file-detail-' + data.id);
+      node.querySelector("input.rename").value = data.filename;
+      node.querySelector("b.name").innerHTML = data.filename;
+      node.querySelector("a.name").href = siteurl + data.filename;
+    }
+    function renameFile(el) {
+      var data = JSON.parse(el.parentNode.parentNode.getAttribute('data-file'));
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', renameFileResult);
+      xhr.open('POST', 'stream/rename', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      var id = encodeURIComponent(data.id);
+      var newName = encodeURIComponent(el.parentNode.querySelector('input.rename').value);
+      xhr.send('id=' + id + '&newName=' + newName);
+    }
+    function deleteFileResult() {
+      var data = JSON.parse(this.responseText);
+      if (data.error) {
+        return console.warn(data.error.message);
+      }
+      var node = document.querySelector('#file-detail-' + data.id);
+      node.parentNode.removeChild(node);
+    }
+    function deleteFile(el) {
+      var data = JSON.parse(el.parentNode.parentNode.getAttribute('data-file'));
+      if (confirm('Are you sure you want to delete "' + data.filename + '"')) {
+        var xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', deleteFileResult);
+        xhr.open('POST', 'stream/delete', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        var id = encodeURIComponent(data.id);
+        xhr.send('id=' + id);
+      }
+    }
     function loadNewFiles(files) {
+      var loadmask = document.querySelector(".load_mask");
+      if (loadmask) loadmask.parentNode.removeChild(loadmask);
+
       for (var i = 0; i < files.length; i++) {
         //filename originalname size created
         var details = files[i];
-        if (!(details.filename in loadedFiles)) {
+        if (!(details.id in loadedFiles)) {
+          var this_detail = detail_tmpl.cloneNode(true);
           
+          this_detail.id = 'file-detail-' + details.id;
+          this_detail.setAttribute('style', "order: " + (details.id + 2) + ";");
+          this_detail.setAttribute('data-file', JSON.stringify(details));
+          this_detail.querySelector("img.preview").src = siteurl + details.filename;
+          this_detail.querySelector("a.name").href = siteurl + details.filename;
+          this_detail.querySelector("input.rename").value = details.filename;
+          this_detail.querySelector("b.name").innerHTML = details.filename;
+          this_detail.querySelector("em.originalname").innerHTML = details.originalname;
+          this_detail.querySelector("span.size").innerHTML = bytesToSize(details.size);
+          
+          document.querySelector("#main").appendChild(this_detail);
         }
-        loadedFiles[details.filename] = details;
+        loadedFiles[details.id] = details;
       }
     }
     function handleResponse() {
-      loadNewFiles(JSON.parse(this.responseText));
+      var data = JSON.parse(this.responseText);
+      if (data.error) {
+        return console.warn(data.error.message);
+      }
+      loadNewFiles(data);
+    }
+    function reloadTimespan(el) {
+      var now = Math.floor((new Date()).getTime()/1000);
+      var since = now - el.options[el.selectedIndex].value;
+      var displayedFiles = {}
+      for (var id in loadedFiles) {
+        var detail = loadedFiles[id];
+        if (detail.created < since) {
+          var node = document.querySelector('#file-detail-' + detail.id);
+          node.parentNode.removeChild(node);
+        } else {
+          displayedFiles[id] = detail;
+        }
+      }
+      loadedFiles = displayedFiles;
+      getResults();
     }
     function getResults() {
       var el = document.getElementById('age-selector');
       var age = el.options[el.selectedIndex].value;
       var xhr = new XMLHttpRequest();
-      xhr.addEventListener('load', handleResponse())
-      xhr.open('GET', 'uploads?age=' + age, true);
+      xhr.addEventListener('load', handleResponse);
+      xhr.open('GET', 'stream/uploads?maxAge=' + age, true);
       xhr.send();
     }
     (function() {
+      siteurl = document.querySelector('meta[name="site-href"]').getAttribute('value');
+      tmpl = document.querySelector(".template");
+      detail_tmpl = tmpl.querySelector(".row");
+      
       getResults();
       setInterval(getResults, 5000);
     })();

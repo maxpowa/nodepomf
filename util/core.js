@@ -1,4 +1,5 @@
 var config = require('../config/core');
+var fs = require('fs');
 var path = require('path');
 var crypto = require("crypto");
 var sqlite3 = require('sqlite3').verbose();
@@ -47,6 +48,40 @@ function generate_name(file, db, cb) {
         });
     }
     gen_name_internal();
+}
+
+function getUploads(since, callback) {
+    db.all('SELECT * FROM files WHERE datetime(created) > datetime(?);', [since], callback);
+}
+
+function deleteFile(id, callback) {
+    db.get('SELECT filename FROM files WHERE id = ?', id, function(err, row) {
+        if (row && row['filename']) {
+            db.run('DELETE FROM files WHERE id = ?', id, function(err) {
+                if (err) return callback(err);
+                fs.unlink(path.join(config.UPLOAD_DIRECTORY, row['filename']), callback)
+            })
+        } else {
+            return callback(new Error('Failed to get the filename from the db'));
+        }
+    })
+}
+
+function renameFile(id, newName, callback) {
+    db.get('SELECT * FROM files WHERE id = ?', id, function(err, row) {
+        if (row && row['filename']) {
+            db.run('UPDATE files SET filename = ? WHERE id = ?', [newName, id], function(err) {
+                if (err) return callback(err);
+                fs.rename(path.join(config.UPLOAD_DIRECTORY, row['filename']),
+                    path.join(config.UPLOAD_DIRECTORY, newName), function(err) {
+                        row['filename'] = newName;
+                        callback(err, row);
+                    });
+            });
+        } else {
+            return callback(new Error('Failed to get the filename from the db'));
+        }
+    })
 }
 
 function createOrGetUser(user, callback) {
@@ -123,3 +158,6 @@ exports.ensureAuthenticated = ensureAuthenticated;
 exports.createOrGetUser = createOrGetUser;
 exports.getAllUsers = getAllUsers;
 exports.getDatabase = function() {return db;};
+exports.getUploads = getUploads;
+exports.renameFile = renameFile;
+exports.deleteFile = deleteFile;

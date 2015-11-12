@@ -85,10 +85,34 @@ input.view {
 input.view:disabled {
     background-color: #DDD;
 }
+#main {
+    display: flex;
+    flex-direction: column;
+}
+button.rename {
+    margin-left: 6px;
+}
 button.delete {
     margin-left: 6px;
     background-color: #FF5454;
     color: #FFF;
+}
+em.originalname {
+    max-width: calc(100% - 520px);
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+#age-selector {
+    width: 100%;
+    text-align: right;
+}
+button[disabled] {
+    background-color: #DDD;
+}
+button[disabled]:hover {
+    border-color: red;
 }
 button.sign_in {
     width: 100%;
@@ -126,8 +150,13 @@ button.sign_in.github:active {
   button,
   input[type="submit"],
   input[type="reset"],
-  input[type="button"] {
+  input[type="button"],
+  input[type="text"],
+  select {
     min-width: 100%;
+  }
+  em.originalname {
+    max-width: calc(100% - 80px);
   }
 }
 
