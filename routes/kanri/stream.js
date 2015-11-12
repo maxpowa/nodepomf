@@ -52,7 +52,7 @@ router.post('/rename', ensureAuthenticated, function(req, res, next) {
 });
 
 function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
+  if (req.isAuthenticated() && (req.user.permissions.indexOf('a') >= 0 || req.user.permissions.indexOf('*') >= 0)) { return next(); }
   res.status(401).json({error: {code: 401, message: 'Not authenticated'}});
 }
 

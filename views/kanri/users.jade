@@ -1,21 +1,38 @@
 extends ./layout
 
 block ui
-  .container
+  .container#users
     h1.summary Users
+    h6.info
+      | Permissions: Give users '*' for full access, 'u' for permission access and 'a' for stream access
     input.u-full-width#user-search-box(type='text', placeholder='Search for users...')
+    .row
+      .three.columns
+        b Display Name
+      .three.columns
+        b Username
+      .two.columns
+        b Provider
+      .four.columns
+        b Permissions
     each val in users
       .row.search-target(data-user-id=val.id)
-        .four.columns
+        .three.columns
           b.searchable= val.displayName
         .three.columns
           span.searchable= val.username
-        .three.columns
-          | #{val.provider}
         .two.columns
-          input.u-max-full-width.view(type='text', value=val.permissions, disabled=(val.id==user.id))= val.permissions
+          | #{val.provider}
+        .four.columns
+          input.view(type='text', value=val.permissions, disabled=(val.id==user.id))= val.permissions
+          button.apply(onClick='applyPermissions(this)') Apply
       
   script.
+    function applyPermissions(el) {
+      var id = el.parentNode.parentNode.getAttribute('data-user-id');
+      var permissions = el.parentNode.querySelector('input.view').value;
+      // TODO: XHR to server to update permissions
+    }
     (function() {
       var input = document.getElementById('user-search-box');
       input.onkeyup = function () {

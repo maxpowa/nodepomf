@@ -81,13 +81,25 @@ body {
 input.view {
     height: 22px;
     text-align: right;
+    width: 60%;
+    margin-bottom: 0rem;
 }
 input.view:disabled {
     background-color: #DDD;
 }
+button.apply {
+    height: 22px;
+    line-height: 24px;
+    margin-left: 6px;
+    margin-bottom: 0rem;
+    width: calc(40% - 6px);
+}
 #main {
     display: flex;
     flex-direction: column;
+}
+#users > .row {
+    border-top: 1px solid #DDD;
 }
 button.rename {
     margin-left: 6px;
@@ -157,6 +169,9 @@ button.sign_in.github:active {
   }
   em.originalname {
     max-width: calc(100% - 80px);
+  }
+  button.apply {
+    margin-left: 0px;
   }
 }
 
