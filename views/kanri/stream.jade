@@ -2,9 +2,68 @@ extends ./layout
 
 block ui
   .container
-    h1.summary Stream
-    .row
-      .seven.columns
-        #TODO: As files are uploaded, they should appear here
-      .five.columns
-        #TODO: Selected file information and controls
+    .row.summary
+      .six.columns
+        h1 Stream
+      .six.columns
+        select.u-pull-right#age-selector
+          option(value='3600') 1 hour
+          option(value='21600') 6 hours
+          option(value='43200') 12 hours
+          option(value='86400', selected='selected') 1 day
+          option(value='259200') 3 days
+          option(value='604800') 1 week
+    .row.load_mask
+      .twelve.columns
+        | Loading...
+        br
+        .loader
+          span.loader-inner
+    .row.file_detail
+        .u-pull-right.detail_button
+          a.link-href(target="_blank", href="")
+        .preview.u-pull-left
+          img#preview(src="/images/fileicon2.png")
+        div
+          span.name
+          | &nbsp; (
+          span.size
+          | )
+          br
+          span.error
+          button.delete.u-pull-right(onClick="deleteFile()") Delete
+          button.move.u-pull-right(onClick="moveFile()") Move
+  
+  script.
+    function moveFile() {
+      //do something
+    }
+    function deleteFile() {
+      confirm('asdf');
+    }
+    var loadedFiles = {};
+    function loadNewFiles(files) {
+      for (var i = 0; i < files.length; i++) {
+        //filename originalname size created
+        var details = files[i];
+        if (!(details.filename in loadedFiles)) {
+          
+        }
+        loadedFiles[details.filename] = details;
+      }
+    }
+    function handleResponse() {
+      loadNewFiles(JSON.parse(this.responseText));
+    }
+    function getResults() {
+      var el = document.getElementById('age-selector');
+      var age = el.options[el.selectedIndex].value;
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', handleResponse())
+      xhr.open('GET', 'uploads?age=' + age, true);
+      xhr.send();
+    }
+    (function() {
+      getResults();
+      setInterval(getResults, 5000);
+    })();

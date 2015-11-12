@@ -6,9 +6,10 @@ block content
       .row
         | Kanri (管理)
         |  | 
-        a(href='./stream') stream
+        a(href='/kanri/stream') stream
         |  | 
-        a(href='./users') users
-        |  | 
-        a(href='./logout') logout
+        a(href='/kanri/users') users
+        |  | #{user.username} (
+        a(href='/kanri/logout') logout
+        | )
   block ui

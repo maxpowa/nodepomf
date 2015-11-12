@@ -1,6 +1,10 @@
 var config = require('../config/core');
 var path = require('path');
 var crypto = require("crypto");
+var sqlite3 = require('sqlite3').verbose();
+
+var db = new sqlite3.Database(config.DB_FILENAME);
+db.exec('CREATE TABLE IF NOT EXISTS users (id integer primary key, provider text, username text, displayName text, profileUrl text, permissions text)');
 
 if (!String.prototype.endsWith) {
     String.prototype.endsWith = function(searchString, position) {
@@ -33,7 +37,8 @@ function generate_name(file, db, cb) {
         // Check if a file with the same name does already exist in the database
         db.get('SELECT COUNT(name) FROM files WHERE filename = ?', name, function(err, row) {
             if (row === undefined || row === null || row['COUNT(name)'] === 0) {
-                db.run('INSERT INTO files (originalname, filename, size) VALUES (?, ?, ?)', [file.originalname, name, file.size]);
+                var now = Math.floor((new Date()).getTime()/1000);
+                db.run('INSERT INTO files (originalname, filename, size, created) VALUES (?, ?, ?, ?)', [file.originalname, name, file.size, now]);
                 cb(name);
             } else {
                 console.warn("Name conflict! (" + name + ")");
@@ -42,6 +47,32 @@ function generate_name(file, db, cb) {
         });
     }
     gen_name_internal();
+}
+
+function createOrGetUser(user, callback) {
+    db.all('SELECT * FROM users', [], function(err, rows) {
+      if (err) console.error('A problem occurred getting the user!');
+      if (rows === undefined || rows === null || rows.length === 0) {
+        // If this is the first user, give them all permissions
+        db.run('INSERT INTO users (id, provider, username, displayName, profileUrl, permissions) VALUES (?, ?, ?, ?, ?, ?)',
+              [user.id, user.provider, user.username, user.displayName, user.profileUrl, '*']);
+        user.permissions = '*';
+        return callback(user);
+      } else {
+        // If the user is already in the DB return that one, otherwise create one with no permissions
+        for (var i=0; i<rows.length; i++) {
+          if (rows[i].id == user.id) return callback(rows[i]);
+        }
+        db.run('INSERT INTO users (id, provider, username, displayName, profileUrl, permissions) VALUES (?, ?, ?, ?, ?, ?)',
+              [user.id, user.provider, user.username, user.displayName, user.profileUrl, '']);
+        user.permissions = '';
+        callback(user);
+      }
+    });
+}
+
+function getAllUsers(callback) {
+  db.all('SELECT * FROM users', [], callback);
 }
 
 function reverse(s) {
@@ -80,7 +111,7 @@ function fileFilter(req, file, cb) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
-  res.redirect('/login')
+  res.redirect('/kanri/login');
 }
 
 var exports = module.exports;
@@ -89,3 +120,6 @@ exports.toObject = toObject;
 exports.fileFilter = fileFilter;
 exports.generate_name = generate_name;
 exports.ensureAuthenticated = ensureAuthenticated;
+exports.createOrGetUser = createOrGetUser;
+exports.getAllUsers = getAllUsers;
+exports.getDatabase = function() {return db;};

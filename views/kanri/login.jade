@@ -5,7 +5,7 @@ block content
     h1.summary Login
     .row
       .eight.columns
-        img.login_splash(src="images/login_splash.png")
+        img.login_splash(src="/images/login_splash.png")
       .four.columns
         if config.GITHUB_CLIENT_ID && config.GITHUB_CLIENT_SECRET
           button.sign_in.github(onclick="location.href='/auth/github';")

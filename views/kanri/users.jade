@@ -3,7 +3,35 @@ extends ./layout
 block ui
   .container
     h1.summary Users
-    |TODO: Add user management, including user access levels
-    |      maybe fine grained down to exactly what they can and
-    |      cannot do in relation to existing files, probably not
-    |      needed though.
+    input.u-full-width#user-search-box(type='text', placeholder='Search for users...')
+    each val in users
+      .row.search-target(data-user-id=val.id)
+        .four.columns
+          b.searchable= val.displayName
+        .three.columns
+          span.searchable= val.username
+        .three.columns
+          | #{val.provider}
+        .two.columns
+          input.u-max-full-width.view(type='text', value=val.permissions, disabled=(val.id==user.id))= val.permissions
+      
+  script.
+    (function() {
+      var input = document.getElementById('user-search-box');
+      input.onkeyup = function () {
+        var filter = input.value.toUpperCase();
+        var lis = document.getElementsByClassName('search-target');
+        for (var i = 0; i < lis.length; i++) {
+            var searchable = lis[i].getElementsByClassName('searchable');
+            var results = 0;
+            for (var x = 0; x < searchable.length; x++) {
+              if (searchable[x].innerHTML.toUpperCase().indexOf(filter) == 0)
+                results++;
+            }
+            if (results > 0)
+              lis[i].style.display = 'block';
+            else
+              lis[i].style.display = 'none';
+        }
+      }
+    })();

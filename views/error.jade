@@ -8,4 +8,5 @@ block content
       //else
       h3= message
       h5= status
-      pre #{error.stack}
+      if error && error.stack
+        pre #{error.stack}

@@ -17,6 +17,7 @@ var login  = require('./routes/kanri/login');
 var stream = require('./routes/kanri/stream');
 var users  = require('./routes/kanri/users');
 var config = require('./config/core');
+var utils  = require('./util/core');
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -35,8 +36,9 @@ if (config.GITHUB_CLIENT_ID && config.GITHUB_CLIENT_SECRET) {
       callbackURL: config.URL.replace(/\/$/, '') + "/auth/github/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-      // TODO: Associate profile with user in db
-      done(null, profile);
+      utils.createOrGetUser(profile, function(profile) {
+        done(null, profile);
+      });
     }
   ));
 }
@@ -70,9 +72,16 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/stream', stream)
-app.use('/users', users)
-app.use('/login', login);
+if (auth) {
+  app.use('/kanri/stream', stream);
+  app.use('/kanri/users', users);
+  app.use('/kanri/login', login);
+  app.get('/kanri/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+}
+
 app.use('/upload(.php)?', upload);
 app.use('/tools', tools);
 app.use('/faq', faq);
@@ -90,24 +99,15 @@ if (auth) {
   app.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
     function(req, res) {
-      res.redirect('/stream');
+      res.redirect('/kanri/stream');
     });
 }
 
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
-});
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  if (req.url !== '/404') {
-      res.redirect('/404');
-  } else {
-      var error = new Error('Not found');
-      error.status = 404;
-      next(error);
-  }
+  var error = new Error('Not found');
+  error.status = 404;
+  next(error);
 });
 
 // error handlers

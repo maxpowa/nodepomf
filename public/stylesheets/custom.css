@@ -75,7 +75,22 @@ body {
     width: 100%;
     height: auto;
 }
-button.sign_in{
+.load_mask {
+    text-align: center;
+}
+input.view {
+    height: 22px;
+    text-align: right;
+}
+input.view:disabled {
+    background-color: #DDD;
+}
+button.delete {
+    margin-left: 6px;
+    background-color: #FF5454;
+    color: #FFF;
+}
+button.sign_in {
     width: 100%;
     height: 50px;
     border: none;
@@ -113,5 +128,64 @@ button.sign_in.github:active {
   input[type="reset"],
   input[type="button"] {
     min-width: 100%;
+  }
+}
+
+/*
+CSS Folding Cube animation
+*/
+.loader {
+  display: inline-block;
+  margin: 5px;
+  padding: 1px;
+  width: 20px;
+  height: 20px;
+  position: relative;
+  border: 1px solid #888;
+  top: 50%;
+  animation: loader 4s infinite ease;
+}
+
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: #444;
+  animation: loader-inner 4s infinite ease-in;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(-45deg);
+  }
+  25% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(45deg);
+  }
+  75% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(-45deg);
+  }
+}
+
+@keyframes loader-inner {
+  0% {
+    height: 0%;
+  }
+  25% {
+    height: 0%;
+  }
+  50% {
+    height: 100%;
+  }
+  75% {
+    height: 100%;
+  }
+  100% {
+    height: 0%;
   }
 }
