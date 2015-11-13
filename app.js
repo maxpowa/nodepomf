@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var expressSession = require('express-session');
+var cookieSession = require('cookie-session');
 var passport = require('passport');
 var GithubStrategy = require('passport-github2').Strategy;
 
@@ -56,7 +56,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressSession({ secret: config.SESSION_SECRET || 'some super secret key', resave: false, saveUninitialized: false }));
+
+if (config.SESSION_OPTIONS['secureProxy'] === true) {
+  app.set('trust proxy', 1);
+}
+app.use(cookieSession(config.SESSION_OPTIONS));
 
 if (auth) {
   app.use(passport.initialize());

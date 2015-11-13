@@ -98,10 +98,24 @@ config.COMPLEX_EXTS = [
 config.GITHUB_CLIENT_ID = null;
 config.GITHUB_CLIENT_SECRET = null;
 
+// Session options for Kanri. !! YOU MUST SET THESE FOR KANRI TO WORK !!
+// Set cookies are always signed with keys[0], while the other keys are
+// valid for verification, allowing for key rotation.
+// If you don't want to use key rotation, remove the 'keys' and use 'secret'
+// instead.
+// Documentation: https://github.com/expressjs/cookie-session#cookie-options
+config.SESSION_OPTIONS = {
+	name: 'kanri.session',
+	keys: ['new key', 'old key in rotation'],
+	maxAge: (86400 * 1000), // 1 day (milliseconds)
+	secureProxy: false, // Should be true if you are proxying w/ nginx etc
+	domain: undefined // You should set this to your domain
+}
+
 // Merge ENV in because we -hate- love RX14-chibi
 for (var attr in process.env) {
 	if (attr && attr.startsWith('NPOMF_')) {
 		eattr = attr.replace('NPOMF_', '');
-		config[eattr] = process.env[attr]; 
+		config[eattr] = process.env[attr];
 	}
 }

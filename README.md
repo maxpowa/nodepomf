@@ -48,7 +48,7 @@ server {
   server_name  my.public.server;
 
   location / {
-    proxy_pass http://npomf/;
+    proxy_pass https://npomf/;
     proxy_redirect off;
 
     proxy_set_header Host $host;
@@ -72,7 +72,7 @@ server {
   ssl_certificate_key  /etc/nginx/ssl/server.key;
 
   location / {
-    proxy_pass http://npomf/;
+    proxy_pass https://npomf/;
     proxy_redirect off;
 
     proxy_set_header Host $host;
