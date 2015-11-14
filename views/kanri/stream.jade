@@ -70,7 +70,7 @@ block ui
         el.parentNode.querySelector('button.rename').setAttribute('disabled', true);
       } else {
         removeClass(el, 'error');
-        el.parentNode.querySelector('button.rename').setAttribute('disabled', false);
+        el.parentNode.querySelector('button.rename').removeAttribute('disabled');
       }
     }
     function renameFileResult() {
