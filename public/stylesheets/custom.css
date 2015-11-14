@@ -94,6 +94,10 @@ button.apply {
     margin-bottom: 0rem;
     width: calc(40% - 6px);
 }
+button.apply[state=success] {
+    border-color: lime;
+    color: lime;
+}
 #main {
     display: flex;
     flex-direction: column;
@@ -155,6 +159,15 @@ button.sign_in.github {
 button.sign_in.github:active {
     background: url("../images/sign_in_github_pressed.png") no-repeat center top;
     background-size: contain;
+}
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input[type="text"],
+select {
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 @media (max-width: 730px) {

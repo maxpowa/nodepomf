@@ -16,7 +16,7 @@ block ui
       .four.columns
         b Permissions
     each val in users
-      .row.search-target(data-user-id=val.id)
+      .row.search-target(id='user-' + val.id, data-user=JSON.stringify(val))
         .three.columns
           b.searchable= val.displayName
         .three.columns
@@ -25,13 +25,35 @@ block ui
           | #{val.provider}
         .four.columns
           input.view(type='text', value=val.permissions, disabled=(val.id==user.id))= val.permissions
-          button.apply(onClick='applyPermissions(this)') Apply
+          button.apply(onClick='applyPermissions(this)', disabled=(val.id==user.id)) Apply
       
   script.
+    function permissionResult() {
+      var data = JSON.parse(this.responseText);
+      if (data.error) {
+        return console.warn(data.error.message);
+      }
+      var node = document.querySelector('#user-' + data.id);
+      var user = JSON.parse(node.getAttribute('data-user'));
+      user.perms = data.perms;
+      node.setAttribute('data-user', JSON.stringify(user));
+      node.querySelector('input.view').setAttribute('value', data.perms);
+      var btn = node.querySelector('button.apply');
+      btn.setAttribute('state', 'success');
+      setTimeout(function() {
+        btn.removeAttribute('state');
+      }, 3000);
+    }
     function applyPermissions(el) {
-      var id = el.parentNode.parentNode.getAttribute('data-user-id');
+      var id = JSON.parse(el.parentNode.parentNode.getAttribute('data-user')).id;
       var permissions = el.parentNode.querySelector('input.view').value;
-      // TODO: XHR to server to update permissions
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener('load', permissionResult);
+      xhr.open('POST', 'users/perm', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      var id = encodeURIComponent(id);
+      var perms = encodeURIComponent(permissions);
+      xhr.send('id=' + id + '&perms=' + perms);
     }
     (function() {
       var input = document.getElementById('user-search-box');

@@ -56,32 +56,32 @@ function getUploads(since, callback) {
 
 function deleteFile(id, callback) {
     db.get('SELECT filename FROM files WHERE id = ?', id, function(err, row) {
-        if (row && row['filename']) {
+        if (row && row.filename) {
             db.run('DELETE FROM files WHERE id = ?', id, function(err) {
                 if (err) return callback(err);
-                fs.unlink(path.join(config.UPLOAD_DIRECTORY, row['filename']), callback)
-            })
+                fs.unlink(path.join(config.UPLOAD_DIRECTORY, row.filename), callback);
+            });
         } else {
             return callback(new Error('Failed to get the filename from the db'));
         }
-    })
+    });
 }
 
 function renameFile(id, newName, callback) {
     db.get('SELECT * FROM files WHERE id = ?', id, function(err, row) {
-        if (row && row['filename']) {
+        if (row && row.filename) {
             db.run('UPDATE files SET filename = ? WHERE id = ?', [newName, id], function(err) {
                 if (err) return callback(err);
-                fs.rename(path.join(config.UPLOAD_DIRECTORY, row['filename']),
+                fs.rename(path.join(config.UPLOAD_DIRECTORY, row.filename),
                     path.join(config.UPLOAD_DIRECTORY, newName), function(err) {
-                        row['filename'] = newName;
+                        row.filename = newName;
                         callback(err, row);
                     });
             });
         } else {
             return callback(new Error('Failed to get the filename from the db'));
         }
-    })
+    });
 }
 
 function createOrGetUser(user, callback) {
@@ -107,7 +107,11 @@ function createOrGetUser(user, callback) {
 }
 
 function getAllUsers(callback) {
-  db.all('SELECT * FROM users', [], callback);
+    db.all('SELECT * FROM users', [], callback);
+}
+
+function setUserPermissions(id, permissions, callback) {
+    db.run('UPDATE users SET permissions = ? WHERE id = ?', [permissions, id], callback);
 }
 
 function reverse(s) {
@@ -161,3 +165,4 @@ exports.getDatabase = function() {return db;};
 exports.getUploads = getUploads;
 exports.renameFile = renameFile;
 exports.deleteFile = deleteFile;
+exports.setUserPermissions = setUserPermissions;
