@@ -6,6 +6,65 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var previewTemplate = previewNode.parentNode.innerHTML;
   previewNode.parentNode.removeChild(previewNode);
 
+  function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    if (i == 0) return bytes + ' ' + sizes[i];
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  }
+
+  function fakeFileUpload(data) {
+    var filename = 'browser-upload-' + new Date().toISOString() + '.txt';
+    // Define a boundary, I stole this from IE but you can use any string AFAIK
+    var boundary = "----FakeFileUploadBoundary1234";
+    var xhr = new XMLHttpRequest();
+    var body = '--' + boundary + '\r\n' +
+             // Parameter name is "file" and local filename is "temp.txt"
+             'Content-Disposition: form-data; name="files[]";' +
+             'filename="' + filename + '"\r\n' +
+             // Add the file's mime-type
+             'Content-type: plain/text\r\n\r\n' +
+             data + '\r\n' +
+             '--' + boundary + '--';
+
+    xhr.open("POST", "/upload", true);
+    xhr.setRequestHeader("Content-type", "multipart/form-data; boundary="+boundary);
+    xhr.addEventListener('load', function() {
+      var data = JSON.parse(this.responseText);
+      var template = document.createElement('div');
+      template.innerHTML = previewTemplate;
+      template = template.querySelector('.row');
+      template.querySelector(".status").classList.add('hidden');
+      template.querySelector(".link").classList.remove('hidden');
+      if (!data.files || data.files.length <= 0) return;
+      var name = document.querySelector('meta[name="site-href"]').getAttribute('value') + data.files[0].url;
+      template.querySelector(".link-href").setAttribute('href', name);
+      template.querySelector(".link-href").innerHTML = name;
+      template.querySelector("span.name").innerHTML = filename;
+      template.querySelector("span.size").innerHTML = bytesToSize(data.files[0].size);
+      document.querySelector('.container#preview').appendChild(template);
+    });
+    xhr.send(body);
+  }
+
+  var pastebtn = document.querySelector("#paste-button");
+  pastebtn.addEventListener("click", function(event) {
+    var wrap = document.querySelector("#paste-wrap");
+    if (wrap.classList.contains("hidden")) {
+      wrap.classList.remove("hidden");
+      pastebtn.innerHTML = "x";
+    } else {
+      wrap.classList.add("hidden");
+      pastebtn.innerHTML = "Paste…";
+    }
+  });
+  var submitpastebtn = document.querySelector('button#paste-submit-button');
+  submitpastebtn.addEventListener("click", function(event) {
+    var content = document.querySelector("textarea#paste-box").value;
+    fakeFileUpload(content);
+  });
+
   function errorHandler(file, response) {
     var message = response;
     if (typeof response !== "string") message = response.message;

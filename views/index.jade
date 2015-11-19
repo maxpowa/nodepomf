@@ -37,7 +37,13 @@ block content
           em= config.TAGLINE
         |       
         button.button-primary#upload-button
-          | &nbsp; Select or drop file(s)...
+          | &nbsp; Select or drop file(s)…
+        button.u-pull-right.button#paste-button
+          | &nbsp; Paste…
+        .hidden#paste-wrap
+          textarea.u-full-width.u-max-full-width#paste-box(placeholder='Paste content…')
+          button.u-pull-right.button-primary#paste-submit-button
+            | &nbsp; Submit
         p!= config.DESCRIPTION
   
   // Uploaded file section
