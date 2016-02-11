@@ -40,7 +40,7 @@ router.post('/delete', ensureAuthenticated, function(req, res, next) {
 router.post('/rename', ensureAuthenticated, function(req, res, next) {
   var id = req.body.id;
   var newName = req.body.newName;
-  if (!id || !newName || newName.match('^[\\w\\-. ]+$')) {
+  if (!id || !newName || !/^[\w\-. ]+$/.test(newName)) {
     return res.status(400).json({error: {code: 400, message: 'Invalid id or new name specified'}});
   }
   util.renameFile(id, newName, function(err, data) {
