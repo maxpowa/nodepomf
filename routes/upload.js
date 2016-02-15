@@ -45,7 +45,12 @@ router.post('/', upload.array('files[]', config.MAX_UPLOAD_COUNT), function(req,
     db.run('UPDATE files SET size = ? WHERE filename = ?', [file.size, file.filename]);
     files.push({"name": file.originalname, "url": file.filename, "size": file.size});
   });
-  res.status(200).json({'success': true, 'files': files});
+
+  if (req.query.output == "gyazo") {
+    res.status(200).send(config.FILE_URL + files[0].url);
+  } else {
+    res.status(200).json({ 'success': true, 'files': files });
+  }
 });
 
 module.exports = router;
