@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
              data + '\r\n' +
              '--' + boundary + '--';
 
-    xhr.open("POST", "/upload", true);
+    var post_url = document.querySelector('meta[name="upload-url"]').getAttribute('value') || "";
+    xhr.open("POST", post_url + "/upload", true);
     xhr.setRequestHeader("Content-type", "multipart/form-data; boundary="+boundary);
     xhr.addEventListener('load', function() {
       var data = JSON.parse(this.responseText);

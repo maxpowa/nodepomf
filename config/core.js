@@ -30,6 +30,10 @@ config.URL = 'http://localhost:3000/';
 // config.FILE_URL = 'http://a.my.domain.is.moe/';
 config.FILE_URL = 'http://localhost:3000/f/';
 
+// DO NOT TOUCH UNLESS YOU KNOW HOW TO PROPERLY CONFIGURE CORS
+// Changes the file upload form to POST to this URL instead of the one it's loaded from.
+config.UPLOAD_URL = config.URL;
+
 // Only open to localhost, you can should put this behind nginx or similar
 // config.IFACES = '0.0.0.0'; // Open to all interfaces (Not running behind nginx)
 config.IFACES = '0.0.0.0';
