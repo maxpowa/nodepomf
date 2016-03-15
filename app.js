@@ -33,7 +33,7 @@ if (config.GITHUB_CLIENT_ID && config.GITHUB_CLIENT_SECRET) {
   passport.use(new GithubStrategy({
       clientID: config.GITHUB_CLIENT_ID,
       clientSecret: config.GITHUB_CLIENT_SECRET,
-      callbackURL: config.URL.replace(/\/$/, '') + "/auth/github/callback"
+      callbackURL: config.URL + "/auth/github/callback"
     },
     function(accessToken, refreshToken, profile, done) {
       utils.createOrGetUser(profile, function(profile) {

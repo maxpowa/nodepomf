@@ -20,15 +20,17 @@ config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
                      "remove files under specific circumstances.";
 
 // Main URL (User-facing)
-// config.URL = 'http://my.domain.is.moe/';
-config.URL = 'http://localhost:3000/';
+// config.URL = 'http://my.domain.is.moe';
+// Used to have trailing / but trailing / is no longer supported.
+config.URL = 'http://localhost:3000';
 // URL to access uploaded files
 // Different from URL if you're serving uploaded files from a different subdomain
 // If you serve from a different directory/subdomain this app won't be able
 // to actually serve the files, NGINX or something must do that. This is just
 // for generating links to uploaded files.
-// config.FILE_URL = 'http://a.my.domain.is.moe/';
-config.FILE_URL = 'http://localhost:3000/f/';
+// config.FILE_URL = 'http://a.my.domain.is.moe';
+// Also used to have a trailing / but shouldn't any more!
+config.FILE_URL = 'http://localhost:3000/f';
 
 // DO NOT TOUCH UNLESS YOU KNOW HOW TO PROPERLY CONFIGURE CORS
 // Changes the file upload form to POST to this URL instead of the one it's loaded from.
