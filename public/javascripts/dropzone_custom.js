@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   var previewTemplate = previewNode.parentNode.innerHTML;
   previewNode.parentNode.removeChild(previewNode);
 
+  var post_url = document.querySelector('meta[name="upload-url"]').getAttribute('value') || "";
+
   function bytesToSize(bytes) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return 'n/a';
@@ -28,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
              data + '\r\n' +
              '--' + boundary + '--';
 
-    var post_url = document.querySelector('meta[name="upload-url"]').getAttribute('value') || "";
     xhr.open("POST", post_url + "/upload", true);
     xhr.setRequestHeader("Content-type", "multipart/form-data; boundary="+boundary);
     xhr.addEventListener('load', function() {
@@ -80,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   var dz = new Dropzone(document.body, { // Make the whole body a dropzone
-    url: "/upload", // Set the url
+    url: post_url + "/upload", // Set the url
     paramName: "files[]",
     thumbnailWidth: 60,
     thumbnailHeight: 60,
