@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var data = JSON.parse(file.xhr.response);
     if (!data.files || data.files.length <= 0) return;
     file.previewElement.querySelector(".link").classList.remove('hidden');
-    var name = document.querySelector('meta[name="site-href"]').getAttribute('value') + data.files[0].url;
+    var name = document.querySelector('meta[name="site-href"]').getAttribute('value') + "/" + data.files[0].url;
     file.previewElement.querySelector(".link-href").setAttribute('href', name);
     file.previewElement.querySelector(".link-href").innerHTML = name;
   });

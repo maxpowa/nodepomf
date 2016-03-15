@@ -1,6 +1,7 @@
 var express = require('express');
 var multer  = require('multer');
-var mkdirp = require('mkdirp');
+var mkdirp  = require('mkdirp');
+var cors    = require('cors');
 var config  = require('../config/core');
 var util    = require('../util/core');
 
@@ -39,7 +40,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage, limits: {fileSize: config.MAX_UPLOAD_SIZE}, fileFilter: util.fileFilter });
 
 /* POST upload page. */
-router.post('/', upload.array('files[]', config.MAX_UPLOAD_COUNT), function(req, res, next) {
+router.post('/', cors(), upload.array('files[]', config.MAX_UPLOAD_COUNT), function(req, res, next) {
   var files = [];
   req.files.forEach(function(file) {
     db.run('UPDATE files SET size = ? WHERE filename = ?', [file.size, file.filename]);
