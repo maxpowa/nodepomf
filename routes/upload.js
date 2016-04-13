@@ -39,6 +39,10 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage, limits: {fileSize: config.MAX_UPLOAD_SIZE}, fileFilter: util.fileFilter });
 
+
+/* Handle CORS pre-flight requests */
+router.options('/', cors());
+
 /* POST upload page. */
 router.post('/', cors(), upload.array('files[]', config.MAX_UPLOAD_COUNT), function(req, res, next) {
   var files = [];
