@@ -81,7 +81,7 @@ block ui
       var node = document.querySelector('#file-detail-' + data.id);
       node.querySelector("input.rename").value = data.filename;
       node.querySelector("b.name").innerHTML = data.filename;
-      node.querySelector("a.name").href = siteurl + data.filename;
+      node.querySelector("a.name").href = siteurl + "/" + data.filename;
     }
     function renameFile(el) {
       var data = JSON.parse(el.parentNode.parentNode.getAttribute('data-file'));
@@ -125,8 +125,8 @@ block ui
           this_detail.id = 'file-detail-' + details.id;
           this_detail.setAttribute('style', "order: " + (details.id + 2) + ";");
           this_detail.setAttribute('data-file', JSON.stringify(details));
-          this_detail.querySelector("img.preview").src = siteurl + details.filename;
-          this_detail.querySelector("a.name").href = siteurl + details.filename;
+          this_detail.querySelector("img.preview").src = siteurl + "/" + details.filename;
+          this_detail.querySelector("a.name").href = siteurl + "/" + details.filename;
           this_detail.querySelector("input.rename").value = details.filename;
           this_detail.querySelector("b.name").innerHTML = details.filename;
           this_detail.querySelector("em.originalname").innerHTML = details.originalname;
