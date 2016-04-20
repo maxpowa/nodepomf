@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       template.querySelector(".status").classList.add('hidden');
       template.querySelector(".link").classList.remove('hidden');
       if (!data.files || data.files.length <= 0) return;
-      var name = document.querySelector('meta[name="site-href"]').getAttribute('value') + data.files[0].url;
+      var name = document.querySelector('meta[name="site-href"]').getAttribute('value') + "/" + data.files[0].url;
       template.querySelector(".link-href").setAttribute('href', name);
       template.querySelector(".link-href").innerHTML = name;
       template.querySelector("span.name").innerHTML = filename;
