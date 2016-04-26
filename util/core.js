@@ -142,10 +142,8 @@ function fileFilter(req, file, cb) {
             error.status = 403;
         }
     });
-    if (found)
-        cb(error, false);
-    else
-        cb(null, true);
+    
+    return cb(error, !found);
 }
 
 function ensureAuthenticated(req, res, next) {
