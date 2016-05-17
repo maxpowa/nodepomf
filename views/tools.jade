@@ -6,7 +6,7 @@ block content
     h5.title Shell Alias
     dl.toolinfo
       dt Simple alias that should work in most shells, only requires cURL. Usage: upload FILE [FILE [FILE...]]
-      code upload() { for f; do echo $(curl -#Sf -F "files[]=@$f" #{config.UPLOAD_URL}/upload?output=gyazo); done }
+      code upload() { for f; do echo $(curl -#Sf -F "files[]=@$f" #{config.UPLOAD_URL}/upload\?output\=gyazo); done }
     h5.title ShareX Custom Uploader
     dl.toolinfo
       dt Download ShareX
