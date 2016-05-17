@@ -59,7 +59,8 @@ server {
 
 }
 ```
-For SSL support, add another server block after the previous one containing the following.
+For SSL support, add another server block after the previous one containing the
+following.
 ```
 server {
   listen       443;
@@ -82,10 +83,40 @@ server {
   }
 }
 ```
-If you want nginx to handle serving uploaded files, simply add a location block
-pointing to the configured files directory. This is not required, as NPomf handlers
-serving files on its own by default.
+In production, nginx should handle serving uploaded files. Depending on
+your configuration, your nginx config might look different. The example
+given below is a stripped down version of aww.moe's configuration. You
+may want to consider adding CSP headers, gzip compression or expiration
+headers along with the charset.
+```
+upstream npomf {
+  server 127.0.0.1:3000;
+  keepalive 128;
+}
+server {
+  listen 80;
+  listen [::]:80 ipv6only=on;
 
+  server_name your.site;
+
+  location / {
+    root /path/to/npomf/files;
+    try_files $uri @npomf;
+
+    charset UTF-8;
+  }
+
+  location @npomf {
+    proxy_pass http://npomf/;
+    proxy_redirect off;
+
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-NginX-Proxy true;
+  }
+}
+```
 In the nginx main config, you'll have to change the `client_max_body_size` in
 order to allow uploads larger than 1MB. You should change it to whatever you
 choose as the max upload size in the config file.
