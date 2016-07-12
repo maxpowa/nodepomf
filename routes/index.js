@@ -7,4 +7,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: config.SITE_NAME + ' · ' + config.TAGLINE, config: config });
 });
 
+router.get('/nojs', function(req, res, next) {
+  res.render('index-nojs', { title: config.SITE_NAME + ' · ' + config.TAGLINE, config: config });
+});
+
 module.exports = router;

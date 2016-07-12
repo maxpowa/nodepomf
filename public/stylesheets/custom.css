@@ -4,6 +4,12 @@ html {
 body {
     background-image: url('../images/cream_dust.png');
 }
+#nojs-upload-button {
+  margin-right: 1em;
+}
+#nojs-upload-button > input {
+  line-height: 1.6;
+}
 #upload-button {
     margin-bottom: 2em;
 }
@@ -160,6 +166,7 @@ button.sign_in.github:active {
     background: url("../images/sign_in_github_pressed.png") no-repeat center top;
     background-size: contain;
 }
+
 .button,
 button,
 input[type="submit"],
