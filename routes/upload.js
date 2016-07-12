@@ -51,8 +51,14 @@ router.post('/', cors(), upload.array('files[]', config.MAX_UPLOAD_COUNT), funct
     files.push({"name": file.originalname, "url": file.filename, "fullurl": config.FILE_URL + '/' + file.filename, "size": file.size});
   });
 
-  if (req.query.output == "gyazo") {
-    res.status(200).send(files[0].fullurl);
+  var furls = files.map(function(elem){
+      return elem.name;
+  }).join('\n');
+  if (req.query.output == 'gyazo') {
+    res.status(200).send(furls);
+  } else if (req.query.output == 'text') {
+    // Ensure trailing newline because that's a thing
+    res.status(200).send(furls + '\n');
   } else {
     res.status(200).json({ 'success': true, 'files': files });
   }
