@@ -11,7 +11,7 @@ router.get('/sharex', function(req, res, next) {
   res.json({
     "Name": config.SITE_NAME,
     "RequestType": "POST",
-    "RequestURL": config.URL + "/upload.php",
+    "RequestURL": config.UPLOAD_URL + "/upload.php",
     "FileFormName": "files[]",
     "Arguments": {},
     "ResponseType": "Text",
