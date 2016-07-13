@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes == 0) return 'n/a';
     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    if (i == 0) return bytes + ' ' + sizes[i];
+    if (i === 0) return bytes + ' ' + sizes[i];
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
   }
 
@@ -40,9 +40,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       template.querySelector(".status").classList.add('hidden');
       template.querySelector(".link").classList.remove('hidden');
       if (!data.files || data.files.length <= 0) return;
-      var name = document.querySelector('meta[name="site-href"]').getAttribute('value') + "/" + data.files[0].url;
-      template.querySelector(".link-href").setAttribute('href', name);
-      template.querySelector(".link-href").innerHTML = name;
+      template.querySelector(".link-href").setAttribute('href', data.files[0].url);
+      template.querySelector(".link-href").innerHTML = data.files[0].url;
       template.querySelector("span.name").innerHTML = filename;
       template.querySelector("span.size").innerHTML = bytesToSize(data.files[0].size);
       document.querySelector('.container#preview').appendChild(template);
@@ -111,9 +110,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     var data = JSON.parse(file.xhr.response);
     if (!data.files || data.files.length <= 0) return;
     file.previewElement.querySelector(".link").classList.remove('hidden');
-    var name = document.querySelector('meta[name="site-href"]').getAttribute('value') + "/" + data.files[0].url;
-    file.previewElement.querySelector(".link-href").setAttribute('href', name);
-    file.previewElement.querySelector(".link-href").innerHTML = name;
+    file.previewElement.querySelector(".link-href").setAttribute('href', data.files[0].url);
+    file.previewElement.querySelector(".link-href").innerHTML = data.files[0].url;
   });
 
   dz.on("uploadprogress", function(file, progress, bytesSent) {

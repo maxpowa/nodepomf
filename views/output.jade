@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  // Summary block
+  .summary
+    .container
+      .row
+        h2.title
+          b= config.HELLO
+        h5
+          em= config.TAGLINE
+        |       
+        p!= config.UPLOAD_COMPLETE
+  
+  // Uploaded file section
+  .preview
+    .container#preview
+      each file in files
+        .row
+          .u-pull-right.link
+            a.link-href(target="_blank", href=file.url)= file.url
+          .preview.u-pull-left
+            img(src=file.thumb)
+          div
+            span.name= file.name
+            | &nbsp; (
+            span.size= file.size
+            | )
+      unless files.length
+        em No files uploaded.
