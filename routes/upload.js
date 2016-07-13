@@ -82,14 +82,6 @@ function bytesToSize(bytes) {
   return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
-function checkImage(filename) {
-  if (!/(jpe?g|png|tiff|bmp|apng|gif|ico|webm)$/.test(filename)) {
-    return
-  }
-  return filename;
-}
-
-
 
 var upload = multer({ storage: storage, limits: {fileSize: config.MAX_UPLOAD_SIZE}, fileFilter: util.fileFilter });
 
