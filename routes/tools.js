@@ -18,7 +18,7 @@ router.get('/sharex', function(req, res, next) {
     "RegexList": [
       "\"url\": \"(.+?)\""
     ],
-    "URL": config.FILE_URL + "/$1,1$",
+    "URL": "$1,1$",
     "ThumbnailURL": "",
     "DeletionURL": ""
   });
