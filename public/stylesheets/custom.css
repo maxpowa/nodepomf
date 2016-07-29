@@ -3,6 +3,10 @@ html {
 }
 body {
     background-image: url('../images/cream_dust.png');
+    animation-duration: 0.2s;
+    transition-timing-function: ease-in;
+    animation-fill-mode: both;
+    animation-name: fadeIn;
 }
 #nojs-upload-button {
   margin-right: 1em;
@@ -252,4 +256,13 @@ CSS Folding Cube animation
   100% {
     height: 0%;
   }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
