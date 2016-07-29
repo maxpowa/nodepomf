@@ -6,6 +6,20 @@ var sqlite3 = require('sqlite3').verbose();
 
 var db = new sqlite3.Database(config.DB_FILENAME);
 db.exec('CREATE TABLE IF NOT EXISTS users (id integer primary key, provider text, username text, displayName text, profileUrl text, permissions text)');
+db.run('CREATE TABLE IF NOT EXISTS files (id integer primary key, filename text unique, originalname text, size number, created datetime)', function() {
+  db.all("PRAGMA table_info('files')", function(err, rows) {
+    if (rows !== undefined && rows !== null) {
+      var names = rows.map(function(val) {
+          return val.name;
+      });
+      if (names.indexOf('created') == -1) {
+        // Add creation date if we are at version 0, version 0 shouldn't have it.
+        db.exec('ALTER TABLE files ADD COLUMN created datetime');
+      }
+    }
+  });
+});
+
 
 if (!String.prototype.endsWith) {
     String.prototype.endsWith = function(searchString, position) {
@@ -142,7 +156,7 @@ function fileFilter(req, file, cb) {
             error.status = 403;
         }
     });
-    
+
     return cb(error, !found);
 }
 
