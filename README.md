@@ -1,4 +1,4 @@
-# NotPomf
+# NodePomf
 NodeJS rewrite of [nokonoko/Pomf](https://github.com/nokonoko/Pomf/).
 
 # Install
