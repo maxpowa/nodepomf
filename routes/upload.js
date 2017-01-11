@@ -81,7 +81,7 @@ router.post('/', cors(), upload.array('files[]', config.MAX_UPLOAD_COUNT), funct
   });
 
   var furls = files.map(function(elem){
-    return elem.name;
+    return elem.url;
   }).join('\n');
   if (req.query.output == 'gyazo') {
     res.status(200).send(furls);
