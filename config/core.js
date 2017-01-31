@@ -14,10 +14,7 @@ config.MAX_UPLOAD_SIZE = 100000000;
 config.SITE_NAME = 'NPomf';
 config.HELLO = "Ohayō!";
 config.TAGLINE = "More kawaii than Pomf?!";
-config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
-                     config.MAX_UPLOAD_SIZE/1000000 + "MB.<br/> "+
-                     "Please read our <a href='/faq'>FAQ</a>, as we may "+
-                     "remove files under specific circumstances.";
+// config.DESCRIPTION has moved to the bottom of this configuration.
 
 // Main URL (User-facing)
 // config.URL = 'http://my.domain.is.moe';
@@ -122,6 +119,21 @@ config.SESSION_OPTIONS = {
 for (var attr in process.env) {
 	if (attr && attr.startsWith('NPOMF_')) {
 		eattr = attr.replace('NPOMF_', '');
-		config[eattr] = process.env[attr];
+    
+    var data = process.env[attr];
+    // lets make it possible to use stuff like CONTACTS in docker environments.
+    try {
+      config[eattr] = JSON.parse(data);
+    } catch (exception) {
+      config[eattr] = data;
+    }
 	}
+}
+
+// lets move it here so changes made to MAX_UPLOAD_SIZE will be displayed correctly.
+if (typeof config.DESCRIPTION == 'undefined') {
+  config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
+                       config.MAX_UPLOAD_SIZE/1000000 + "MB.<br/> "+
+                       "Please read our <a href='/faq'>FAQ</a>, as we may "+
+                       "remove files under specific circumstances.";
 }
