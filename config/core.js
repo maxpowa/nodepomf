@@ -14,7 +14,6 @@ config.MAX_UPLOAD_SIZE = 100000000;
 config.SITE_NAME = 'NPomf';
 config.HELLO = "Ohayō!";
 config.TAGLINE = "More kawaii than Pomf?!";
-// config.DESCRIPTION has moved to the bottom of this configuration.
 
 // Main URL (User-facing)
 // config.URL = 'http://my.domain.is.moe';
@@ -28,10 +27,6 @@ config.URL = 'http://localhost:3000';
 // config.FILE_URL = 'http://a.my.domain.is.moe';
 // Also used to have a trailing / but shouldn't any more!
 config.FILE_URL = 'http://localhost:3000/f';
-
-// DO NOT TOUCH UNLESS YOU KNOW HOW TO PROPERLY CONFIGURE CORS
-// Changes the file upload form to POST to this URL instead of the one it's loaded from.
-config.UPLOAD_URL = config.URL;
 
 // Only open to localhost, you can should put this behind nginx or similar
 // config.IFACES = '0.0.0.0'; // Open to all interfaces (Not running behind nginx)
@@ -137,3 +132,7 @@ if (typeof config.DESCRIPTION == 'undefined') {
                        "Please read our <a href='/faq'>FAQ</a>, as we may "+
                        "remove files under specific circumstances.";
 }
+
+// DO NOT TOUCH UNLESS YOU KNOW HOW TO PROPERLY CONFIGURE CORS
+// Changes the file upload form to POST to this URL instead of the one it's loaded from.
+if (typeof config.UPLOAD_URL == 'undefined') config.UPLOAD_URL = config.URL;
