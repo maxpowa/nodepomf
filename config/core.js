@@ -14,10 +14,6 @@ config.MAX_UPLOAD_SIZE = 100000000;
 config.SITE_NAME = 'NPomf';
 config.HELLO = "Ohayō!";
 config.TAGLINE = "More kawaii than Pomf?!";
-config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
-                     config.MAX_UPLOAD_SIZE/1000000 + "MB.<br/> "+
-                     "Please read our <a href='/faq'>FAQ</a>, as we may "+
-                     "remove files under specific circumstances.";
 
 // Main URL (User-facing)
 // config.URL = 'http://my.domain.is.moe';
@@ -31,10 +27,6 @@ config.URL = 'http://localhost:3000';
 // config.FILE_URL = 'http://a.my.domain.is.moe';
 // Also used to have a trailing / but shouldn't any more!
 config.FILE_URL = 'http://localhost:3000/f';
-
-// DO NOT TOUCH UNLESS YOU KNOW HOW TO PROPERLY CONFIGURE CORS
-// Changes the file upload form to POST to this URL instead of the one it's loaded from.
-config.UPLOAD_URL = config.URL;
 
 // Only open to localhost, you can should put this behind nginx or similar
 // config.IFACES = '0.0.0.0'; // Open to all interfaces (Not running behind nginx)
@@ -122,6 +114,27 @@ config.SESSION_OPTIONS = {
 for (var attr in process.env) {
 	if (attr && attr.startsWith('NPOMF_')) {
 		eattr = attr.replace('NPOMF_', '');
-		config[eattr] = process.env[attr];
+    
+    var data = process.env[attr];
+    // lets make it possible to use stuff like CONTACTS in docker environments.
+    try {
+      config[eattr] = JSON.parse(data);
+    } catch (exception) {
+      config[eattr] = data;
+    }
 	}
+}
+
+// lets move it here so changes made to MAX_UPLOAD_SIZE will be displayed correctly.
+if ('DESCRIPTION' in config) {
+  config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
+                       config.MAX_UPLOAD_SIZE/1000000 + "MB.<br/> "+
+                       "Please read our <a href='/faq'>FAQ</a>, as we may "+
+                       "remove files under specific circumstances.";
+}
+
+// DO NOT TOUCH UNLESS YOU KNOW HOW TO PROPERLY CONFIGURE CORS
+// Changes the file upload form to POST to this URL instead of the one it's loaded from.
+if ('UPLOAD_URL' in config) {
+  config.UPLOAD_URL = config.URL;
 }
