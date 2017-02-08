@@ -67,7 +67,7 @@ if (auth) {
   app.use(passport.session());
 }
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 86400000*7 }));
 app.use('/f', express.static(path.join(__dirname, config.UPLOAD_DIRECTORY)));
 app.set('json spaces', 2);
 
