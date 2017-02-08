@@ -126,7 +126,7 @@ for (var attr in process.env) {
 }
 
 // lets move it here so changes made to MAX_UPLOAD_SIZE will be displayed correctly.
-if (typeof config.DESCRIPTION == 'undefined') {
+if ('DESCRIPTION' in config) {
   config.DESCRIPTION = "Upload whatever you want here, as long as it's under "+
                        config.MAX_UPLOAD_SIZE/1000000 + "MB.<br/> "+
                        "Please read our <a href='/faq'>FAQ</a>, as we may "+
@@ -135,4 +135,6 @@ if (typeof config.DESCRIPTION == 'undefined') {
 
 // DO NOT TOUCH UNLESS YOU KNOW HOW TO PROPERLY CONFIGURE CORS
 // Changes the file upload form to POST to this URL instead of the one it's loaded from.
-if (typeof config.UPLOAD_URL == 'undefined') config.UPLOAD_URL = config.URL;
+if ('UPLOAD_URL' in config) {
+  config.UPLOAD_URL = config.URL;
+}
